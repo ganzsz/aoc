@@ -12,7 +12,7 @@ s = FileSystem()
 # s.addFile([], 'GROOT', 888)
 # print(s.root)
 
-with open('/home/chiron/personal/advent-of-code/2022/07/testinput') as f:
+with open('/home/chiron/personal/advent-of-code/2022/07/realinput') as f:
   state = "idk"
   path = []
   for line in f.readlines():
@@ -33,3 +33,5 @@ with open('/home/chiron/personal/advent-of-code/2022/07/testinput') as f:
         s.addFile(path, line[1], int(line[0]))
 
   print(s.root)
+  print(sum(s.dirsUnderSize.values()))
+  pprint(s.dirsUnderSize)
