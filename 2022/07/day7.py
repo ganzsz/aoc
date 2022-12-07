@@ -33,5 +33,13 @@ with open('/home/chiron/personal/advent-of-code/2022/07/realinput') as f:
         s.addFile(path, line[1], int(line[0]))
 
   print(s.root)
-  print(sum(s.dirsUnderSize.values()))
-  pprint(s.dirsUnderSize)
+  print('first',sum(s.dirsUnderSize.values()))
+  
+  free = 70000000 - s.root.size
+  needed = 30000000 - free
+  res = s.root.size
+  for k, i in s.dirSizes.items():
+    if i >= needed and i < res:
+      res = i
+  
+  print('second', res)

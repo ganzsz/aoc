@@ -43,9 +43,10 @@ class FileSystem:
   root:File = File('/', 0, "dir", dict())
 
   '''
-    This one is only for day1 puzzle 1
+    This one is only for day1
   '''
   dirsUnderSize:Dict[str, int] = dict()
+  dirSizes:Dict[str, int] = dict()
 
   def _curDir(self, path:Path) -> File:
     if(len(path) == 0):
@@ -71,6 +72,7 @@ class FileSystem:
       self.dirsUnderSize[cdPath] = curDir.size
       if curDir.size > 100000:
         self.dirsUnderSize.pop(cdPath)
+      self.dirSizes[cdPath] = curDir.size
 
   def addFile(self, path:Path, name:str, size:int):
     self._addInPath(path, File(name, size, "file"))
