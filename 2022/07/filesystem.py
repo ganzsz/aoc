@@ -20,14 +20,17 @@ class File:
     self.cont = cont
     pass
 
+  def _toOneLine(self, index=0):
+    return ('  '*index) + ' - ' + self.name + ' (' + self.type + ', size=' + str(self.size)+')\n'
+
   def print(self, index=0) -> str:
     if(self.type == 'dir'):
-      ret = ('  '*index) + ' - ' + self.name + ' (dir)'+'\n'
+      ret = self._toOneLine(index)
       for f in self.cont.values():
         ret = ret + f.print(index+1)
       return ret
     else:
-      return ('  '*index) + ' - ' + self.name + ' (' + self.type + ', size=' + str(self.size)+')\n'
+      return self._toOneLine(index)
   
   def __repr__(self) -> str:
     return self.print()
@@ -39,18 +42,27 @@ def getDir(dir:File, path:str) -> Dir:
 class FileSystem:
   root:File = File('/', 0, "dir", dict())
 
-  def _addInPath(self, path:Path, file:File) -> bool:
+  def _curDir(self, path:Path) -> File:
     if(len(path) == 0):
-      curDir = self.root
+      return self.root
     else:
-      curDir = reduce(getDir, path, self.root)
+      return reduce(getDir, path, self.root)
+
+  def _addInPath(self, path:Path, file:File):
+    curDir = self._curDir(path)
     curDir.cont[file.name] = file
-    pass
+  
+  def _updateDirSizes(self, path:Path):
+    for i in range(len(path), -1, -1):
+      p = path[0:i]
+      curDir = self._curDir(p)
+      curDir.size = 0
+      for f in curDir.cont.values():
+        curDir.size += f.size
 
-  def addFile(self, path:Path, name:str, size:int) -> bool:
+  def addFile(self, path:Path, name:str, size:int):
     self._addInPath(path, File(name, size, "file"))
-    pass
+    self._updateDirSizes(path)
 
-  def addFolder(self, path:Path, name:str) -> bool:
+  def addFolder(self, path:Path, name:str):
     self._addInPath(path, File(name, 0, "dir", dict()))
-    pass
