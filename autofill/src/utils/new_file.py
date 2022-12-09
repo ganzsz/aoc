@@ -8,9 +8,11 @@ l = list(filter(lambda x: "__" not in x in x, os.listdir(f"../{YEAR}")))
 l = list(l)
 n = int(sorted(l)[-1][:2]) + 1 if len(l) > 0 else 1
 
-yearFolder = list(filter(lambda x: str(YEAR) in x, os.listdir('..'))).pop()
-
 DEFAULT_FILE = f"with open('') as f:\n    "
+
+try:
+    os.mkdir(f"../{YEAR}")
+except: pass
 
 try:
     os.mkdir(f"../{YEAR}/{n:02d}")
