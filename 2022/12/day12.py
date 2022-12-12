@@ -1,4 +1,6 @@
+import multiprocessing
 from pprint import pprint
+import sys
 from typing import Dict
 from dijkstra import Link, dijkstra, multiplicationFactor, Node
 
@@ -22,6 +24,7 @@ with open('/home/ubuntu/projects/advent-of-code/2022/12/input.real') as f:
     nodes :Dict[int, Node] = {}
     start = (0,0)
     end = (0,0)
+    alist = []
     for y, row in enumerate(world):
         for x, char in enumerate(row):
             if char == 'S':
@@ -33,6 +36,9 @@ with open('/home/ubuntu/projects/advent-of-code/2022/12/input.real') as f:
 
             id = y*multiplicationFactor + x
             nodes[id] = Node(id)
+
+            if char == 'a':
+                alist.append(id)
 
             if y != 0:
                 other = ignoreSpecial(world[y-1][x])
@@ -50,4 +56,16 @@ with open('/home/ubuntu/projects/advent-of-code/2022/12/input.real') as f:
                 diff = heightDiff(other, char) + 1
                 if diff < 3:
                     nodes[id - 1].links.append(Link(nodes[id], 1))
-    print(dijkstra(nodes, nodes[idFromPos(start)], nodes[idFromPos(end)]))
+    outputs = []
+    def lookupSquare(a):
+        global outputs
+        d = dijkstra(nodes, nodes[a], nodes[idFromPos(end)])
+        return d
+    pool = multiprocessing.Pool()
+    pool = multiprocessing.Pool(processes=4)
+    alen = len(alist)
+    for i, r in enumerate(pool.imap_unordered(lookupSquare, alist), 1):
+        sys.stderr.write('\rdone {0:%}'.format(i/alen))
+        outputs.append(r)
+    print()
+    print(min(outputs))

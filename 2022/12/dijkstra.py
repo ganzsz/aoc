@@ -34,7 +34,7 @@ def dijkstra(nodes, start, goal): # Electric boogaloo
     # Algorithm loop, as long as there are nodes keep testing them
     startlen = len(Q)
     while Q:
-        print(round(100-(len(Q)/startlen)*100,2),'%')
+        # print(round(100-(len(Q)/startlen)*100,2),'%')
         current = False
         # Find node with shortest distance
         for i in Q:
