@@ -16,7 +16,12 @@ def printPoints(points, limx, limy):
             screen[y][x] = '#' if (x,y) in points else ' '
         print(''.join(screen[y].values()))
 
-with open('/home/ubuntu/projects/advent-of-code/2022/14/input.real') as f:
+def updateLimits(x,y,xlim,ylim):
+    xlim = min(xlim[0], x), max(xlim[1], x)
+    ylim = min(ylim[0], y), max(ylim[1], y)
+    return xlim,ylim
+
+with open('/home/chiron/personal/advent-of-code/2022/14/input.real') as f:
     points = set()
     xlim = 500,500
     ylim = 0,0
@@ -32,6 +37,7 @@ with open('/home/ubuntu/projects/advent-of-code/2022/14/input.real') as f:
             if mx > xlim[1]: xlim = xlim[0], mx
             if my > ylim[1]: ylim = ylim[0], my
             [points.add(p) for p in pointsOnLine((x0,y0),(x1,y1))]
+    my = ylim[1]
     screen: Dict[int, Dict[int,str]] = {}
     printPoints(points, xlim, ylim)
     number = 0
@@ -39,7 +45,7 @@ with open('/home/ubuntu/projects/advent-of-code/2022/14/input.real') as f:
         x = 500
         y = 0
         while True:
-            if y > ylim[1]: break
+            if y > my: break
             if (x,y+1) not in points:
                 y+=1
                 continue
@@ -52,10 +58,12 @@ with open('/home/ubuntu/projects/advent-of-code/2022/14/input.real') as f:
                 y+=1
                 continue
             break
-        if y > ylim[1]: break
+        xlim, ylim = updateLimits(x,y,xlim,ylim)
         points.add((x,y))
         number += 1
-        printPoints(points, xlim, ylim)
+        # printPoints(points, xlim, ylim)
+        if x == 500 and y == 0: break;
+    printPoints(points, xlim, ylim)
     print(number)
 
 
