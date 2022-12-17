@@ -60,7 +60,11 @@ with open('/home/ubuntu/projects/advent-of-code/2022/15/input.real') as f:
                 if x <= 0 and y >= maxRow:
                     openRows.remove(rowToTest)
         now = time.time()
-        print(f"line {key+1 if key+1 > 9 else '0' + str(key+1)} took {now - stline:5.5} sec, total: {now - st:5.5}, dist:{distance}, lines left: {len(openRows)}")
+        fullTime = now - st
+        minutes = int(fullTime/60)
+        minutes = str(minutes) if minutes > 10 else "0"+str(minutes)
+        prettyTime = f"{minutes}:{fullTime % 60:2.5}"
+        print(f"line {key+1 if key+1 > 9 else '0' + str(key+1)} took {now - stline:5.5} sec, total: {prettyTime}, dist:{distance}, lines left: {len(openRows)}")
         stline = now
 
     theRow = openRows.pop()
