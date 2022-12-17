@@ -19,6 +19,7 @@ def anyOverlap(a, b):
     (b1, b2) = b
     return aInbetween(a,b) or aInbetween(b,a)
 
+# maxRow = 20
 maxRow = 4000000
 
 def calcMissing(row:List[Tuple[int,int]]):
@@ -53,12 +54,11 @@ with open('/home/ubuntu/projects/advent-of-code/2022/15/input.real') as f:
                     if(anyOverlap(range1, range2)):
                         row[min(i,k)] = (min(range1[0], range2[0]), max([range1[1], range2[1]]))
                         del row[max(i,k)]
-                        continue
+                        i = -1
+                        break
                 i+=1
-            if len(row) == 1:
-                x,y = row[0]
-                if x <= 0 and y >= maxRow:
-                    openRows.remove(rowToTest)
+            if (0, maxRow) in row:
+                openRows.remove(rowToTest)
         now = time.time()
         fullTime = now - st
         minutes = int(fullTime/60)
@@ -67,6 +67,16 @@ with open('/home/ubuntu/projects/advent-of-code/2022/15/input.real') as f:
         print(f"line {key+1 if key+1 > 9 else '0' + str(key+1)} took {now - stline:5.5} sec, total: {prettyTime}, dist:{distance}, lines left: {len(openRows)}")
         stline = now
 
+    # I'm leaving this in so you can feel my pain as well
+    # print("openrows", len(openRows))
+    # singles = list()
+    # mults = list()
+    # [singles.append(x) if len(x) == 1 else mults.append(x) for x in blocked]
+    # print([x for k,x in enumerate(blocked) if k in openRows ])
+    # print("singles", len(singles))
+    # foults = [x for x in singles if x[0][0]<=0 and x[0][1] >= maxRow]
+    # print("foults", len(foults))
+    # print (openRows)
     theRow = openRows.pop()
     x = calcMissing(blocked[theRow])
     y = theRow
