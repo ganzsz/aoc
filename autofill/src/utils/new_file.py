@@ -4,6 +4,11 @@ from api import get_input
 with open('YEAR') as f:
     YEAR = f.read().strip()
 
+try:
+    os.listdir("../").index(YEAR)
+except:
+    os.mkdir(f"../{YEAR}")
+
 l = list(filter(lambda x: "__" not in x in x, os.listdir(f"../{YEAR}")))
 l = list(l)
 n = int(sorted(l)[-1][:2]) + 1 if len(l) > 0 else 1
