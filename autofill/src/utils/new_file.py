@@ -19,6 +19,8 @@ try:
     os.mkdir(f"../{YEAR}")
 except: pass
 
+realInput = get_input(n,YEAR)
+
 try:
     os.mkdir(f"../{YEAR}/{n:02d}")
 except: pass
@@ -32,7 +34,7 @@ with open(directory+"input.test", "w") as f:
     f.write("")
 
 with open(directory+"input.real", 'w')as f:
-    f.write(get_input(n,YEAR))
+    f.write(realInput)
 
 
 print(f"Enter your solution in {path}")
