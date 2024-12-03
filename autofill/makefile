@@ -10,7 +10,7 @@ setup:
 	@make help
 
 new: 
-	@python3 src/utils/new_file.py
+	@python src/utils/new_file.py
 
 readme:
 	@python src/utils/build_md.py

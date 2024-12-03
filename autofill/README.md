@@ -3,7 +3,9 @@
 Jumpstart your Advent of Code experience. Automate input downloads and easily create templates for your solutions, so you can focus on solving the challenges.
 
 ## Setup
-Run `make setup`, this will create the `session.cookie` file, please remember to fill this with your session cookie to auto-download inputs, and add a newline after it, just in case.
+Run `pip install -r requirements.txt` to install python dependencies
+
+Run `python setup.py`, this will create the `session.cookie` file, please remember to fill this with your session cookie to auto-download inputs, and add a newline after it, just in case.
 To find it on Chrome: right-click, inspect, Application tab, Storage, Cookies, session.
 If your repository is public add the `session.cookie` file to your `.gitignore`
 
